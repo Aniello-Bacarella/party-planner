@@ -12,7 +12,7 @@ async function fetchAllEvents() {
     const response = await fetch(`${COMBINED_URL}/events`);
     if (!response.ok) throw new Error("Failed to fetch events");
     const data = await response.json();
-    state.events = data;
+    state.events = data.data;
     render();
   } catch (error) {
     console.error("Error fetching events:", error);
@@ -31,6 +31,14 @@ async function fetchEventbyId(id) {
     console.error("Error fetching event details:", error);
     renderError("Error fetching event deatails. Please try again later.");
   }
+}
+
+function render() {
+  const root = document.getElementById("app");
+  root.innerHTML = "";
+
+  root.appendChild(EventList(state.events));
+  root.appendChild(EventDetails(state.selectedEvent));
 }
 
 (async function init() {
