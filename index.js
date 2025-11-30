@@ -29,12 +29,8 @@ async function fetchEventbyId(id) {
     render();
   } catch (error) {
     console.error("Error fetching event details:", error);
-    renderError("Error fetching event deatails. Please try again later.");
+    renderError("Error fetching event details. Please try again later.");
   }
-}
-
-function EventDetails(event) {
-  const container = document.createEleement("div");
 }
 
 function EventList(events) {
@@ -59,6 +55,32 @@ function render() {
 
   root.appendChild(EventList(state.events));
   root.appendChild(EventDetails(state.selectedEvent));
+}
+
+function EventDetails(event) {
+  const container = document.createEleement("div");
+  container.className = "event-details";
+
+  if (!event) {
+    const message = document.createElement("p");
+    message.textContent = "Select an event to see details.";
+    container.appendChild(message);
+    return container;
+  }
+
+  const title = document.createElement("h2");
+  title.textContent = event.name;
+
+  const id = document.createElement("p");
+
+  const date = document.createElement("p");
+
+  const location = document.createElement("p");
+
+  const description = document.createElement("p");
+
+  container.append(title, id, date, location, description);
+  return container;
 }
 
 (async function init() {
