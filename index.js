@@ -33,6 +33,26 @@ async function fetchEventbyId(id) {
   }
 }
 
+function EventDetails(event) {
+  const container = document.createEleement("div");
+}
+
+function EventList(events) {
+  const container = document.createElement("div");
+  container.className = "event-list";
+
+  const title = document.createElement("h2");
+  title.textContent = "Event List";
+  container.appendChild(heading);
+
+  const list = document.createElement("ul");
+  events.forEach((event) => {
+    const item = document.createElement("li");
+    item.addEventListener("click", () => fetchEventbyId)(event.id);
+    list.appendChild(item);
+  });
+}
+
 function render() {
   const root = document.getElementById("app");
   root.innerHTML = "";
