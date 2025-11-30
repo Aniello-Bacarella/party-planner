@@ -44,9 +44,13 @@ function EventList(events) {
   const list = document.createElement("ul");
   events.forEach((event) => {
     const item = document.createElement("li");
-    item.addEventListener("click", () => fetchEventbyId)(event.id);
+    item.textContent = event.name;
+    item.addEventListener("click", () => fetchEventbyId(event.id));
     list.appendChild(item);
   });
+
+  container.appendChild(list);
+  return container;
 }
 
 function EventDetails(event) {
