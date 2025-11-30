@@ -25,7 +25,7 @@ async function fetchEventbyId(id) {
     const response = await fetch(`${COMBINED_URL}/events/${id}`);
     if (!response.ok) throw new Error("Failed to fetch event details");
     const data = await response.json();
-    state.selectedEvent = data;
+    state.selectedEvent = data.data;
     render();
   } catch (error) {
     console.error("Error fetching event details:", error);
@@ -39,7 +39,7 @@ function EventList(events) {
 
   const title = document.createElement("h2");
   title.textContent = "Event List";
-  container.appendChild(heading);
+  container.appendChild(title);
 
   const list = document.createElement("ul");
   events.forEach((event) => {
@@ -49,16 +49,8 @@ function EventList(events) {
   });
 }
 
-function render() {
-  const root = document.getElementById("app");
-  root.innerHTML = "";
-
-  root.appendChild(EventList(state.events));
-  root.appendChild(EventDetails(state.selectedEvent));
-}
-
 function EventDetails(event) {
-  const container = document.createEleement("div");
+  const container = document.createElement("div");
   container.className = "event-details";
 
   if (!event) {
@@ -72,15 +64,36 @@ function EventDetails(event) {
   title.textContent = event.name;
 
   const id = document.createElement("p");
+  id.textContent = `ID: ${event.id}`;
 
   const date = document.createElement("p");
+  date.textContent = `Date: ${event.date}`;
 
   const location = document.createElement("p");
+  location.textContent = `Location: ${event.location}`;
 
   const description = document.createElement("p");
+  description.textContent = `Description: ${event.description}`;
 
   container.append(title, id, date, location, description);
   return container;
+}
+
+function renderError(message) {
+  const root = document.getElementById("app");
+  root.innerHTML = "";
+  const errorMsg = document.createElement("p");
+  errorMsg.style.color = "red";
+  errorMsg.textContent = message;
+  root.appendChild(errorMsg);
+}
+
+function render() {
+  const root = document.getElementById("app");
+  root.innerHTML = "";
+
+  root.appendChild(EventList(state.events));
+  root.appendChild(EventDetails(state.selectedEvent));
 }
 
 (async function init() {
